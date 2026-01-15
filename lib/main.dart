@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gallery_app/core/utils/app_router.dart';
 import 'package:gallery_app/core/utils/dependecy_injection.dart';
 import 'package:gallery_app/features/gallery/data/repo/gallery_repo.dart';
 import 'package:gallery_app/features/gallery/presentation/cubit/gallery_cubit/gallery_cubit.dart';
-import 'package:gallery_app/features/gallery/presentation/views/gallery_view.dart';
 
 void main() {
   setup();
@@ -18,9 +18,10 @@ class GalleryApp extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           GalleryCubit(getIt.get<GalleryRepo>())..getGalleryImages(),
-      child: const MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
-        home: GalleryView(),
+        theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       ),
     );
   }
