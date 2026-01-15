@@ -16,7 +16,8 @@ class GalleryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GalleryCubit(getIt.get<GalleryRepo>()),
+      create: (context) =>
+          GalleryCubit(getIt.get<GalleryRepo>())..getGalleryImages(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: GalleryView(),

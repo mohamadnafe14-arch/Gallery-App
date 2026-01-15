@@ -10,20 +10,26 @@ class GalleryRepoImpl implements GalleryRepo {
   final PermissionsService permissionsService;
   GalleryRepoImpl(this.permissionsService);
   @override
+  @override
   Future<Either<Failure, List<GalleryImageModel>>> getGalleryImages() async {
-    if (!(await permissionsService.requestPermission())) {
+    final hasPermission = await permissionsService.requestPermission();
+    if (!hasPermission) {
       return Left(PermissionFailure("Permission Denied"));
     }
+
     try {
-      List<AssetPathEntity> album = await PhotoManager.getAssetPathList(
+      final albums = await PhotoManager.getAssetPathList(
         type: RequestType.image,
       );
-      List<AssetEntity> images = await album[0].getAssetListPaged(
-        page: 0,
-        size: 100,
-      );
-      return Right(images.map((e) => GalleryImageModel.fromAsset(e)).toList());
-    } on Exception catch (e) {
+
+      if (albums.isEmpty) {
+        return Right([]);
+      }
+
+      final images = await albums.first.getAssetListPaged(page: 0, size: 100);
+
+      return Right(images.map(GalleryImageModel.fromAsset).toList());
+    } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }

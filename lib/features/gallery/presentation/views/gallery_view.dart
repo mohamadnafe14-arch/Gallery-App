@@ -3,9 +3,8 @@ import 'package:gallery_app/features/gallery/presentation/views/widgets/gallery_
 
 class GalleryView extends StatelessWidget {
   const GalleryView({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(body: GalleryViewBody()));
+    return SafeArea(child: Scaffold(body: const GalleryViewBody()));
   }
 }
