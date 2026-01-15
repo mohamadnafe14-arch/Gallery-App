@@ -9,7 +9,7 @@ class GalleryGridView extends StatelessWidget {
   final List<GalleryImageModel> images;
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return images.isEmpty ? const Center(child: Text("No Images")) : GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 10,
